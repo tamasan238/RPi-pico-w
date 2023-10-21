@@ -180,7 +180,7 @@ include(wolfssh_import.cmake)
     add_executable(testwolfssh
         src/blink.c
         src/wifi.c
-        # src/tcp.c
+        src/tcp.c
         src/ssh.c
         src/ssh_main.c
     )

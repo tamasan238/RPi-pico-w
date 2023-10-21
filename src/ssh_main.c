@@ -18,6 +18,12 @@
  * along with wolfSSH.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "wolf/common.h"
+#include "wolf/tcp.h"
+#include "wolf/wifi.h"
+#include "wolf/blink.h"
+#include "lwip/tcp.h"
+
 #ifdef HAVE_CONFIG_H
     #include <config.h>
 #endif
