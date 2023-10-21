@@ -29,9 +29,13 @@ pico_sdk_init()
     set(WOLFSSL_ROOT $ENV{WOLFSSL_ROOT})
     include_directories(${WOLFSSL_ROOT})
 
+    set(WOLFSSH_ROOT $ENV{WOLFSSH_ROOT})
+    include_directories(${WOLFSSH_ROOT})
+
 # ## End of Global Include Path
 
 include(wolfssl_import.cmake)
+include(wolfssh_import.cmake)
 
 ### Test wolfCrypt algorithms
     add_executable(testwolfcrypt
@@ -170,3 +174,38 @@ include(wolfssl_import.cmake)
 
     pico_add_extra_outputs(tls_Client)
 ### End of TLS Client
+
+
+### wolfSSH EchoServer
+    add_executable(testwolfssh
+        src/blink.c
+        src/wifi.c
+        # src/tcp.c
+        src/ssh.c
+        src/ssh_main.c
+    )
+
+    target_compile_definitions(testwolfssh PRIVATE
+        WIFI_SSID=\"${WIFI_SSID}\"
+        WIFI_PASSWORD=\"${WIFI_PASSWORD}\"
+        TEST_TCP_SERVER_IP=\"${TEST_TCP_SERVER_IP}\"
+        PICO_CYW43_ARCH_POLL
+        NO_SYS=1
+    )
+
+    target_link_libraries(testwolfssh
+        pico_stdlib
+        pico_rand
+        pico_lwip
+        pico_cyw43_arch
+        pico_lwip_nosys
+        pico_async_context_poll
+        wolfssl
+        wolfssh
+    )
+
+    pico_enable_stdio_usb(testwolfssh 1)
+    pico_enable_stdio_uart(testwolfssh 0)
+
+    pico_add_extra_outputs(testwolfssh)
+### End of wolfSSH EchoServer
